@@ -4,7 +4,7 @@
 
 ### **Integrantes**
 
-- Mangialabore, Matias
+- Mangialavore, Matias
 - Gatti, Gaspar 
 - Zamora, Damian Pablo
 
