@@ -7,7 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--<Spinner
+    android:id="@+id/spinner"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:drawSelectorOnTop="true"
+    android:entries="@array/array_name"
+    />-->
+
     <TextView
+        android:id="@+id/TvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
