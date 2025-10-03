@@ -29,10 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         getNews()
 
-        //Prueba para ir al activity de viewByTeam, eliminar luego de pruebas.
-/*        val intent = Intent(this, ViewByTeamActivity::class.java)
-        startActivity(intent)
-        finish()*/
+
     }
     private fun getNews() {
         val call = NewsRetrofitClient.apiService.getNews()

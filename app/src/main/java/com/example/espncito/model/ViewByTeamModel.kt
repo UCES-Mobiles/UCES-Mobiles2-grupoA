@@ -7,12 +7,27 @@ data class ViewByTeamModel(
 )
 
 data class Team(
-    @SerializedName("slug") val slug: String,
-    @SerializedName("location") val location: String,
+    @SerializedName("name") val name: String?,
+    @SerializedName("location") val location: String?,
+    @SerializedName("color") val color: String?,
+    @SerializedName("standingSummary") val standingSummary: String?,
+    @SerializedName("defaultLeague") val defaultLeague: DefaultLeague?,
+    @SerializedName("record") val record: Record?
+)
+
+data class DefaultLeague(
+    @SerializedName("name") val name: String
+)
+
+data class Record(
+    @SerializedName("items") val items: List<RecordItem>
+)
+
+data class RecordItem(
+    @SerializedName("stats") val stats: List<Stat>
+)
+
+data class Stat(
     @SerializedName("name") val name: String,
-    @SerializedName("abbreviation") val abbreviation: String,
-    @SerializedName("displayName") val displayName: String,
-    @SerializedName("shortDisplayName") val shortDisplayName: String,
-    @SerializedName("color") val color: String,
-    @SerializedName("alternateColor") val alternateColor: String,
+    @SerializedName("value") val value: Any
 )
