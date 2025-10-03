@@ -1,20 +1,19 @@
-package com.example.espncito
+package com.example.espncito.ui.main
 
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.appparcial2.model.NoticiasActuales
+import com.example.appparcial2.model.News
 import com.example.espncito.databinding.ActivityMainBinding
-import com.example.espncito.network.RetrofitClient
+import com.example.espncito.network.news.NewsRetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class MainActivity : AppCompatActivity() {
 
-    private val TAG = "ESPNapi"
+    private val TAG = "espnApiLogs"
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,32 +25,33 @@ class MainActivity : AppCompatActivity() {
         getNews()
     }
     private fun getNews() {
-        val call = RetrofitClient.apiService.getNoticia()
+        val call = NewsRetrofitClient.apiService.getNews()
         try {
-            call.enqueue(object : Callback<NoticiasActuales> {
+            call.enqueue(object : Callback<News> {
                 override fun onResponse(
-                    call: Call<NoticiasActuales>,
-                    response: Response<NoticiasActuales>
+                    call: Call<News>,
+                    response: Response<News>
                 ) {
                     if (response.isSuccessful) {
                         val news = response.body()
                         if (news != null) {
                             logEspnInfo(news)
                         } else {
-                            Log.i(TAG, "esta vasio pero dio 200/300")
+                            Log.i(TAG, "response empty")
                         }
                     } else {
                         Log.i(TAG, "${response.code()} - ${response.message()}")
                     }
                 }
-                override fun onFailure(call: Call<NoticiasActuales>, t: Throwable) {
+                override fun onFailure(call: Call<News>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
 
             })
-        }catch (e: Exception){Log.e(TAG, "Excepción: ${e.message}")}
+        }catch (e: Exception){
+            Log.e(TAG, "Excepción: ${e.message}")}
     }
-    private fun logEspnInfo(news: NoticiasActuales){
+    private fun logEspnInfo(news: News){
         Log.i(TAG,"titulo: ${news.headlines.get(1).title}")
     }
 }
