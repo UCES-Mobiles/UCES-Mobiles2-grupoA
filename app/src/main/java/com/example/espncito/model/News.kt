@@ -2,7 +2,7 @@ package com.example.appparcial2.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NoticiasActuales(
+data class News(
     @SerializedName("headlines") val headlines: List<Headline>
 )
 
