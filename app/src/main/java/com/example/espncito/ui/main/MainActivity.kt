@@ -1,15 +1,20 @@
 package com.example.espncito.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.postDelayed
 import com.example.appparcial2.model.News
 import com.example.espncito.databinding.ActivityMainBinding
 import com.example.espncito.network.news.NewsRetrofitClient
+import com.example.espncito.ui.viewByTeam.ViewByTeamActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.logging.Handler
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +28,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getNews()
+
+        //Prueba para ir al activity de viewByTeam, eliminar luego de pruebas.
+/*        val intent = Intent(this, ViewByTeamActivity::class.java)
+        startActivity(intent)
+        finish()*/
     }
     private fun getNews() {
         val call = NewsRetrofitClient.apiService.getNews()
