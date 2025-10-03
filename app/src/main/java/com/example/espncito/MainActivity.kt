@@ -25,35 +25,33 @@ class MainActivity : AppCompatActivity() {
 
         getNews()
     }
-
-    private fun getNews(){
+    private fun getNews() {
         val call = RetrofitClient.apiService.getNoticia()
-
-        call.enqueue(object: Callback<NoticiasActuales> {
-            override fun onResponse(
-                call: Call<NoticiasActuales>,
-                response: Response<NoticiasActuales>
-            ) {
-                if(response.isSuccessful){
-                    val news = response.body()
-                    if(news!= null){
-                        logEspnInfo(news)
-                    }else{
-                        Log.i(TAG,"esta vasio pero dio 200/300")
+        try {
+            call.enqueue(object : Callback<NoticiasActuales> {
+                override fun onResponse(
+                    call: Call<NoticiasActuales>,
+                    response: Response<NoticiasActuales>
+                ) {
+                    if (response.isSuccessful) {
+                        val news = response.body()
+                        if (news != null) {
+                            logEspnInfo(news)
+                        } else {
+                            Log.i(TAG, "esta vasio pero dio 200/300")
+                        }
+                    } else {
+                        Log.i(TAG, "${response.code()} - ${response.message()}")
                     }
-                }else{
-                    Log.i(TAG,"${response.code()} - ${response.message()}")
                 }
-            }
+                override fun onFailure(call: Call<NoticiasActuales>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
 
-            override fun onFailure(call: Call<NoticiasActuales>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+            })
+        }catch (e: Exception){Log.e(TAG, "Excepción: ${e.message}")}
     }
-
     private fun logEspnInfo(news: NoticiasActuales){
-        Log.i(TAG,"titulo: ${news.title}")
+        Log.i(TAG,"titulo: ${news.headlines.get(1).title}")
     }
 }

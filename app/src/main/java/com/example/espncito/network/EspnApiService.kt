@@ -10,7 +10,7 @@ import retrofit2.http.Path
 
 interface EspnApiService {
     /** aca en donde se configurarian las url por el filtro**/
-    //@GET("")
+    @GET("v1/sports/news?limit=10")
     fun getNoticia(): Call<NoticiasActuales>
 
 
