@@ -27,6 +27,8 @@
         <!-- Pantalla de vista por equipo -->
         <activity android:name=".ui.viewByTeam.ViewByTeamActivity" />
 
+        <!-- Pantalla de vista por liga -->
+        <activity android:name=".ui.viewByLeague.ViewByLeagueActivity" />
 
     </application>
 
