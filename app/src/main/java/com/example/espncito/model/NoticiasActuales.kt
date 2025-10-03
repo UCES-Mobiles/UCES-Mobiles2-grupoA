@@ -1,19 +1,24 @@
 package com.example.appparcial2.model
 
-import java.io.Serializable
+/*import java.io.Serializable*/
+import com.google.gson.annotations.SerializedName
+
 
 /*enum class Genero {
     ACCION, COMEDIA, DRAMA, DOCUMENTAL, OTRO
 }*/
 
 
+
 data class NoticiasActuales(
     //val id: Int = generarIdUnico(),
-    var titulo: String,
-    var desc: String,
+    @SerializedName("title")
+    var title: String
+
+    //var desc: String,
     /*var genero: Genero,
     var puntuacion: Int*/
-): Serializable {
+)/*: Serializable {
     companion object {
         private var contador = 0
 
@@ -22,4 +27,4 @@ data class NoticiasActuales(
             return contador
         }
     }
-}
+}*/

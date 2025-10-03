@@ -1,33 +1,59 @@
 package com.example.espncito
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.appparcial2.model.NoticiasActuales
 import com.example.espncito.databinding.ActivityMainBinding
-import com.example.espncito.viewmodel.NoticiasViewModel
+import com.example.espncito.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-const val NEWFEED = "http://now.core.api.espn.com/v1/sports/news?limit=10"
+
 class MainActivity : AppCompatActivity() {
+
+    private val TAG = "ESPNapi"
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: NoticiasViewModel by lazy {
-        ViewModelHolder.getSharedDeportesViewModel()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
 
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        getNews()
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    private fun getNews(){
+        val call = RetrofitClient.apiService.getNoticia()
+
+        call.enqueue(object: Callback<NoticiasActuales> {
+            override fun onResponse(
+                call: Call<NoticiasActuales>,
+                response: Response<NoticiasActuales>
+            ) {
+                if(response.isSuccessful){
+                    val news = response.body()
+                    if(news!= null){
+                        logEspnInfo(news)
+                    }else{
+                        Log.i(TAG,"esta vasio pero dio 200/300")
+                    }
+                }else{
+                    Log.i(TAG,"${response.code()} - ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<NoticiasActuales>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun logEspnInfo(news: NoticiasActuales){
+        Log.i(TAG,"titulo: ${news.title}")
     }
 }
