@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.appparcial2.model.News
 import com.example.espncito.databinding.ActivityViewByTeamBinding
 import com.example.espncito.model.ViewByTeamModel
 import com.example.espncito.network.viewByTeam.ViewByTeamRetrofitClient
@@ -23,11 +22,11 @@ class ViewByTeamActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        getVBT()
+        getTeamById()
     }
 
-    private fun getVBT() {
-        val call = ViewByTeamRetrofitClient.viewByTeamService.getViewByTeam()
+    private fun getTeamById() {
+        val call = ViewByTeamRetrofitClient.viewByTeamService.getTeamById("soccer","usa.1",18418)
         try {
             call.enqueue(object : Callback<ViewByTeamModel> {
                 override fun onResponse(
@@ -46,7 +45,7 @@ class ViewByTeamActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call<ViewByTeamModel>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Log.e(TAG, "Error de red: ${t.message}", t)
                 }
 
             })
@@ -55,6 +54,9 @@ class ViewByTeamActivity : AppCompatActivity() {
     }
 
     private fun getLogs(resp: ViewByTeamModel){
-        Log.i(TAG,"titulo:")
+        Log.i(TAG,"name: ${resp.team.name}")
+        Log.i(TAG,"slug: ${resp.team.slug}")
+        Log.i(TAG,"color: ${resp.team.color}")
+        Log.i(TAG,"location: ${resp.team.location}")
     }
 }
