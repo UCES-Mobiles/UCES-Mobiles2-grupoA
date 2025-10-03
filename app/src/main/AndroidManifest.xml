@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Pantalla de vista por equipo -->
+        <activity android:name=".ui.viewByTeam.ViewByTeamActivity" />
+
+
     </application>
 
 </manifest>
