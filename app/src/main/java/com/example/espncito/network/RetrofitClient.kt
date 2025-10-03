@@ -2,10 +2,9 @@ package com.example.espncito.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object RetrofitClient {
-    private const val NEWFEED = "https://now.core.api.espn.com/v1/sports/news"
+    private const val NEWFEED = "https://now.core.api.espn.com/"
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
