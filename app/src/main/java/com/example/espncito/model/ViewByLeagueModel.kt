@@ -11,10 +11,10 @@ data class Sport(
 )
 
 data class League(
-    @SerializedName("teams") val teams: List<LeagueTeam>  // Cambié de Team a LeagueTeam
+    @SerializedName("teams") val teams: List<LeagueTeam>
 )
 
-data class LeagueTeam(  // Cambié de Team a LeagueTeam
+data class LeagueTeam(
     @SerializedName("team") val team: TeamInfo
 )
 
@@ -25,5 +25,15 @@ data class TeamInfo(
     @SerializedName("abbreviation") val abbreviation: String,
     @SerializedName("displayName") val displayName: String,
     @SerializedName("shortDisplayName") val shortDisplayName: String,
-    @SerializedName("logo") val logo: String
+    @SerializedName("color") val color: String?,
+    @SerializedName("alternateColor") val alternateColor: String?,
+    @SerializedName("logos") val logos: List<TeamLogo>?
+)
+
+data class TeamLogo(
+    @SerializedName("href") val href: String,
+    @SerializedName("alt") val alt: String,
+    @SerializedName("rel") val rel: List<String>,
+    @SerializedName("width") val width: Int,
+    @SerializedName("height") val height: Int
 )
