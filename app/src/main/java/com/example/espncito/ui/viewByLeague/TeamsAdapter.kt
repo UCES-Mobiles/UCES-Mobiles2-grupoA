@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.espncito.databinding.ItemTeamBinding
 import com.example.espncito.model.TeamInfo
 
@@ -47,9 +48,25 @@ class TeamsAdapter(
             binding.teamLocation.text = team.location
             binding.teamAbbreviation.text = team.abbreviation
 
-            // You can load the logo here using Glide or Picasso later
-            // For now, we'll use a placeholder
-            // Glide.with(binding.root).load(team.logos?.firstOrNull()?.href).into(binding.teamLogo)
+            // Load team logo using Glide
+            loadTeamLogo(team)
+        }
+
+        private fun loadTeamLogo(team: TeamInfo) {
+            val logoUrl = team.logos?.firstOrNull()?.href
+
+            if (!logoUrl.isNullOrEmpty()) {
+                // Use Glide to load the image from URL
+                Glide.with(binding.root.context)
+                    .load(logoUrl)
+                    .placeholder(android.R.drawable.ic_menu_gallery) // Default Android placeholder
+                    .error(android.R.drawable.ic_menu_report_image) // Default Android error icon
+                    .centerInside()
+                    .into(binding.teamLogo)
+            } else {
+                // If no logo URL, set a default placeholder
+                binding.teamLogo.setImageResource(android.R.drawable.ic_menu_gallery)
+            }
         }
     }
 
