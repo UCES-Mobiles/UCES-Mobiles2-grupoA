@@ -50,13 +50,19 @@ class ViewByTeamActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.team.observe(this) { team ->
-            team?.let { loadTeamLogo(it) }
+            team?.let {
+                // MÓDULO 1: Información Básica
+                binding.textTeamName.text = team.displayName ?: teamName
+                binding.textLocation.text = "Ubicación: ${team.location ?: "No disponible"}"
+                binding.textLeague.text = "Liga: ${team.defaultLeague?.name ?: team.leagueAbbrev ?: "No disponible"}"
+                loadTeamLogo(it) }
         }
 
         viewModel.teamName.observe(this) { name ->
             binding.textTeamName.text = name
             supportActionBar?.title = name
         }
+
 
 
         viewModel.statDisplay.observe(this) { stats ->
