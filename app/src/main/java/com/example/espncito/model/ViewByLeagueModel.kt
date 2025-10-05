@@ -27,13 +27,5 @@ data class TeamInfo(
     @SerializedName("shortDisplayName") val shortDisplayName: String,
     @SerializedName("color") val color: String?,
     @SerializedName("alternateColor") val alternateColor: String?,
-    @SerializedName("logos") val logos: List<TeamLogo>?
-)
-
-data class TeamLogo(
-    @SerializedName("href") val href: String,
-    @SerializedName("alt") val alt: String,
-    @SerializedName("rel") val rel: List<String>,
-    @SerializedName("width") val width: Int,
-    @SerializedName("height") val height: Int
+    @SerializedName("logos") val logos: List<com.example.espncito.model.TeamLogo>?
 )
