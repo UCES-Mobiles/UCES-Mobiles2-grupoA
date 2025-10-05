@@ -1,18 +1,6 @@
-# **Mobiles II**
- 
-## **Trabajo Práctico N°1** 
+# ESPNcito 
 
-### **Integrantes**
-
-- Mangialavore, Matias
-- Gatti, Gaspar 
-- Zamora, Damian Pablo
-
----
-
-** Espncito **
-
-Espncito es una aplicación móvil que te permite acceder a información actualizada sobre deportes, ligas y equipos de diversos lugares del mundo. Obtén datos en tiempo real sobre tus equipos favoritos, sus estadísticas y próximos partidos.
+### Espncito es una aplicación móvil que te permite acceder a información actualizada sobre deportes, ligas y equipos de diversos lugares del mundo. Obtén datos en tiempo real sobre tus equipos favoritos, sus estadísticas y próximos partidos.
 
 * Características Principales *
 
@@ -48,3 +36,4 @@ Desarrollado por
 - Mangialavore, Matías
 - Gatti, Gaspar
 - Zamora, Damián Pablo
+
