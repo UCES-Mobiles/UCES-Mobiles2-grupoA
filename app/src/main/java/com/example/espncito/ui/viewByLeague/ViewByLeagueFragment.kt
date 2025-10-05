@@ -19,13 +19,10 @@ import com.example.espncito.viewmodel.TeamsState
 import com.example.espncito.viewmodel.ViewByLeagueViewModel
 
 class ViewByLeagueFragment : Fragment() {
-
     private var _binding: FragmentViewByLeagueBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var teamsAdapter: TeamsAdapter
     private val viewModel: ViewByLeagueViewModel by viewModels()
-
     // List of available leagues
     private val availableLeagues = listOf(
         LeagueItem("Football (NFL)", "football", "nfl"),
@@ -50,19 +47,12 @@ class ViewByLeagueFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupUI()
         setupObservers()
     }
-
     private fun setupUI() {
-        // Setup RecyclerView for teams
         setupRecyclerView()
-
-        // Setup Spinner for leagues
         setupSpinner()
-
-        // Initial state will be handled by the observer
     }
 
     private fun setupObservers() {
@@ -97,7 +87,6 @@ class ViewByLeagueFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, leagueNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerLeagues.adapter = adapter
-
         // Set spinner item selected listener
         binding.spinnerLeagues.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -109,52 +98,44 @@ class ViewByLeagueFragment : Fragment() {
                     viewModel.fetchTeams(selectedLeague.sport, selectedLeague.league)
                 }
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Show initial message when nothing is selected
                 showEmptyState(getString(R.string.select_league_message))
             }
         }
     }
-
     private fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE
         binding.recyclerViewTeams.visibility = View.GONE
         binding.tvMessage.visibility = View.GONE
     }
-
     private fun showTeams(teams: List<TeamInfo>) {
         teamsAdapter.submitList(teams)
         binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.VISIBLE
         binding.tvMessage.visibility = View.GONE
     }
-
     private fun showEmptyState(message: String) {
         binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.GONE
         binding.tvMessage.visibility = View.VISIBLE
         binding.tvMessage.text = message
     }
-
     private fun showError(errorMessage: String) {
         binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.GONE
         binding.tvMessage.visibility = View.VISIBLE
         binding.tvMessage.text = errorMessage
     }
-
     private fun navigateToTeamDetails(team: TeamInfo, sport: String, league: String) {
         // Navigate to team details activity
         val intent = Intent(requireContext(), ViewByTeamActivity::class.java).apply {
             putExtra("TEAM_ID", team.id.toIntOrNull() ?: 0)
             putExtra("SPORT", sport)
             putExtra("LEAGUE", league)
-            putExtra("TEAM_NAME", team.displayName)
         }
         startActivity(intent)
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
