@@ -61,6 +61,7 @@ dependencies {
     // Glide para carga de imágenes
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     // ViewModel y LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")

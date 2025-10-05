@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.espncito.R
 import com.example.espncito.databinding.ItemTeamBinding
 import com.example.espncito.model.TeamInfo
 
@@ -59,13 +60,13 @@ class TeamsAdapter(
                 // Use Glide to load the image from URL
                 Glide.with(binding.root.context)
                     .load(logoUrl)
-                    .placeholder(android.R.drawable.ic_menu_gallery) // Default Android placeholder
-                    .error(android.R.drawable.ic_menu_report_image) // Default Android error icon
+                    .placeholder(R.drawable.ic_team_placeholder) // Use custom placeholder
+                    .error(R.drawable.ic_error_placeholder) // Use custom error icon
                     .centerInside()
                     .into(binding.teamLogo)
             } else {
-                // If no logo URL, set a default placeholder
-                binding.teamLogo.setImageResource(android.R.drawable.ic_menu_gallery)
+                // If no logo URL, set custom placeholder
+                binding.teamLogo.setImageResource(R.drawable.ic_team_placeholder)
             }
         }
     }

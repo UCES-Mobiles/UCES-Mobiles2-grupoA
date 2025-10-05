@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.espncito.R
 import com.example.espncito.databinding.FragmentViewByLeagueBinding
 import com.example.espncito.model.LeagueItem
 import com.example.espncito.model.TeamInfo
-import com.example.espncito.network.viewByLeague.ViewByLeagueRetrofitClient
 import com.example.espncito.ui.viewByTeam.ViewByTeamActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.espncito.viewmodel.TeamsState
+import com.example.espncito.viewmodel.ViewByLeagueViewModel
 
 class ViewByLeagueFragment : Fragment() {
 
@@ -25,6 +24,7 @@ class ViewByLeagueFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var teamsAdapter: TeamsAdapter
+    private val viewModel: ViewByLeagueViewModel by viewModels()
 
     // List of available leagues
     private val availableLeagues = listOf(
@@ -52,6 +52,7 @@ class ViewByLeagueFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
+        setupObservers()
     }
 
     private fun setupUI() {
@@ -61,8 +62,24 @@ class ViewByLeagueFragment : Fragment() {
         // Setup Spinner for leagues
         setupSpinner()
 
-        // Show initial message
-        showEmptyState(getString(R.string.select_league_message))
+        // Initial state will be handled by the observer
+    }
+
+    private fun setupObservers() {
+        // Observar el LiveData del ViewModel
+        viewModel.teamsState.observe(viewLifecycleOwner) { state ->
+            handleState(state)
+        }
+    }
+
+    private fun handleState(state: TeamsState) {
+        when (state) {
+            is TeamsState.Loading -> showLoading()
+            is TeamsState.Success -> showTeams(state.teams)
+            is TeamsState.Error -> showError(state.message)
+            is TeamsState.Empty -> showEmptyState(getString(R.string.no_teams_found))
+            is TeamsState.Initial -> showEmptyState(getString(R.string.select_league_message))
+        }
     }
 
     private fun setupRecyclerView() {
@@ -86,66 +103,18 @@ class ViewByLeagueFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position >= 0) {
                     val selectedLeague = availableLeagues[position]
-                    fetchTeams(selectedLeague.sport, selectedLeague.league)
+                    // Set current league info to adapter
+                    teamsAdapter.setCurrentLeagueInfo(selectedLeague.sport, selectedLeague.league)
+                    // Fetch teams using ViewModel
+                    viewModel.fetchTeams(selectedLeague.sport, selectedLeague.league)
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Hide teams when nothing is selected
-                binding.recyclerViewTeams.visibility = View.GONE
-                binding.tvMessage.visibility = View.VISIBLE
-                binding.tvMessage.text = getString(R.string.select_league_message)
+                // Show initial message when nothing is selected
+                showEmptyState(getString(R.string.select_league_message))
             }
         }
-    }
-
-    private fun fetchTeams(sport: String, league: String) {
-        showLoading()
-
-        val call = ViewByLeagueRetrofitClient.viewByLeagueService.getTeamsByLeague(sport, league)
-        call.enqueue(object : Callback<com.example.espncito.model.ViewByLeagueModel> {
-            override fun onResponse(
-                call: Call<com.example.espncito.model.ViewByLeagueModel>,
-                response: Response<com.example.espncito.model.ViewByLeagueModel>
-            ) {
-                hideLoading()
-
-                if (response.isSuccessful) {
-                    val viewByLeagueModel = response.body()
-                    if (viewByLeagueModel != null && viewByLeagueModel.sports.isNotEmpty()) {
-                        val teams = extractTeamsFromResponse(viewByLeagueModel)
-                        if (teams.isNotEmpty()) {
-                            showTeams(teams, sport, league)
-                        } else {
-                            showEmptyState(getString(R.string.no_teams_found))
-                        }
-                    } else {
-                        showEmptyState(getString(R.string.no_data_available))
-                    }
-                } else {
-                    showError("Error: ${response.code()} - ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<com.example.espncito.model.ViewByLeagueModel>, t: Throwable) {
-                hideLoading()
-                showError("${getString(R.string.network_error)}: ${t.message}")
-            }
-        })
-    }
-
-    private fun extractTeamsFromResponse(viewByLeagueModel: com.example.espncito.model.ViewByLeagueModel): List<TeamInfo> {
-        val teams = mutableListOf<TeamInfo>()
-
-        viewByLeagueModel.sports.forEach { sport ->
-            sport.leagues.forEach { league ->
-                league.teams.forEach { leagueTeam ->
-                    teams.add(leagueTeam.team)
-                }
-            }
-        }
-
-        return teams
     }
 
     private fun showLoading() {
@@ -154,25 +123,22 @@ class ViewByLeagueFragment : Fragment() {
         binding.tvMessage.visibility = View.GONE
     }
 
-    private fun hideLoading() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showTeams(teams: List<TeamInfo>, sport: String, league: String) {
-        // Set current league info to adapter
-        teamsAdapter.setCurrentLeagueInfo(sport, league)
+    private fun showTeams(teams: List<TeamInfo>) {
         teamsAdapter.submitList(teams)
+        binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.VISIBLE
         binding.tvMessage.visibility = View.GONE
     }
 
     private fun showEmptyState(message: String) {
+        binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.GONE
         binding.tvMessage.visibility = View.VISIBLE
         binding.tvMessage.text = message
     }
 
     private fun showError(errorMessage: String) {
+        binding.progressBar.visibility = View.GONE
         binding.recyclerViewTeams.visibility = View.GONE
         binding.tvMessage.visibility = View.VISIBLE
         binding.tvMessage.text = errorMessage
