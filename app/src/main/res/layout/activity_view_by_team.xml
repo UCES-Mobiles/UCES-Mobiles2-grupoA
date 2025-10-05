@@ -59,7 +59,6 @@
                     android:contentDescription="Team Logo"
                     android:layout_marginBottom="16dp" />
 
-                <!-- Ubicación (letra normal, no negrita, a la izquierda) -->
                 <TextView
                     android:id="@+id/textLocation"
                     android:layout_width="match_parent"
@@ -68,7 +67,6 @@
                     android:textSize="16sp"
                     android:layout_marginBottom="8dp" />
 
-                <!-- Liga (letra normal, no negrita, a la izquierda) -->
                 <TextView
                     android:id="@+id/textLeague"
                     android:layout_width="match_parent"
