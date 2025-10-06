@@ -37,4 +37,16 @@ Desarrollado por:
 - Gatti, Gaspar
 - Zamora, Damián Pablo
 
+## Captura de pantalla
+
+<img width="276" height="516" alt="image" src="https://github.com/user-attachments/assets/c5528258-f272-4259-8fef-d8ed2640a69d" />
+
+<img width="257" height="511" alt="image" src="https://github.com/user-attachments/assets/37b675c3-4432-4412-a2e3-e6bf5e9154b3" />
+
+<img width="249" height="503" alt="image" src="https://github.com/user-attachments/assets/223e8b69-6f7c-4bb0-a748-7c810c0d864c" />
+
+<img width="248" height="504" alt="image" src="https://github.com/user-attachments/assets/dc015b46-e1cc-40e4-8b08-5df167305480" />
+
+
+
 
