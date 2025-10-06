@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.espncito.databinding.ActivityMainBinding
+import com.example.espncito.ui.NewsFragment
 import com.example.espncito.ui.viewByLeague.ViewByLeagueFragment
 
 class MainActivity : AppCompatActivity() {

@@ -13,6 +13,10 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <!-- Aquí puedes agregar un RecyclerView para mostrar las noticias después -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rlNews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </LinearLayout>
