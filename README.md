@@ -47,6 +47,10 @@ Desarrollado por:
 
 <img width="248" height="504" alt="image" src="https://github.com/user-attachments/assets/dc015b46-e1cc-40e4-8b08-5df167305480" />
 
+Video del proyecto
+https://youtube.com/shorts/CVz1cLxFHv4?feature=share
 
+
+  
 
 
